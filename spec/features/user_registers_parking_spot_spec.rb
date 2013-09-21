@@ -13,13 +13,15 @@ feature "user registers spot", %Q{
 
   scenario 'specifies valid information, registers spot' do
     prev_count = ParkingRegistration.count 
-    visti '/'
+    visit '/parking_registrations/new'
+    visit new_parking_registration_path
     fill_in "First name", :with => 'John'
     fill_in "Last name", :with => 'doe' 
-    fill_in "Login", :with => 'user@example.com'
+    fill_in "Email", :with => 'user@example.com'
     fill_in "Parking spot", :with => 3
+    fill_in "Parked on", :with => Date.today
     click_on 'Register'
     expect(page).to have_content 'You registered successfully'
-    expect(ParkingRegistration.count) to eql(prev_count + 1)
+    expect(ParkingRegistration.count).to eql(prev_count + 1)
   end
 end
